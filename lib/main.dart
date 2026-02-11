@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:habit_tracker/providers/habit_provider.dart';
+import 'package:habit_tracker/providers/calorie_provider.dart';
 import 'package:habit_tracker/screens/dashboard_screen.dart';
+import 'package:habit_tracker/screens/calorie_dashboard.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -10,11 +12,15 @@ void main() async {
   // Provider init will handle adapter registration and box opening
   final habitProvider = HabitProvider();
   await habitProvider.init();
+  
+  final calorieProvider = CalorieProvider();
+  await calorieProvider.init();
 
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: habitProvider),
+        ChangeNotifierProvider.value(value: calorieProvider),
       ],
       child: const MyApp(),
     ),
@@ -27,7 +33,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Habit Tracker',
+      title: 'AI Calorie Tracker',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,
@@ -44,7 +50,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const DashboardScreen(),
+      home: const CalorieDashboardScreen(),
     );
   }
 }
